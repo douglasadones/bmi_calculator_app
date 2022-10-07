@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'screens/input_page.dart';
+import 'package:flutter/services.dart';
 // ícone do site: Vecteezy.com
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const BMICalculator());
 }
 
