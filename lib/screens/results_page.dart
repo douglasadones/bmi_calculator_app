@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
+import '../components/constants.dart';
 import '../components/reusable_card.dart';
 import '../components/bottom_button.dart';
 
-class ResultsPage extends StatelessWidget {
-  ResultsPage(
-      {required this.bmiResult,
+class ResultPage extends StatelessWidget {
+  const ResultPage(
+      {super.key,
+      required this.bmiResult,
       required this.resultText,
       required this.interpretation});
 
@@ -17,9 +18,7 @@ class ResultsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text('BMI CALCULATOR'),
-        ),
+        title: const Text("BMI CALCULATOR"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -30,7 +29,7 @@ class ResultsPage extends StatelessWidget {
               padding: const EdgeInsets.all(15.0),
               alignment: Alignment.bottomLeft,
               child: const Text(
-                'Your Result',
+                "Your Result",
                 style: kTitleTextStyle,
               ),
             ),
@@ -51,24 +50,21 @@ class ResultsPage extends StatelessWidget {
                     bmiResult,
                     style: kBMITextStyle,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      interpretation,
-                      textAlign: TextAlign.center,
-                      style: kBodyTextStyle,
-                    ),
+                  Text(
+                    interpretation,
+                    textAlign: TextAlign.center,
+                    style: kBodyTextStyle,
                   ),
                 ],
               ),
             ),
           ),
           BottomButton(
+            buttonTitle: 'RE-CALCULATE',
             onTap: () {
               Navigator.pop(context);
             },
-            buttonTitle: 'RE-CALCULATE',
-          )
+          ),
         ],
       ),
     );

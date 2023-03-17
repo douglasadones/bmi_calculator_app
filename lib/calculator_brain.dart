@@ -10,7 +10,7 @@ class CalculatorBrain {
 
   String calculateBMI() {
     _bmi = weight / pow(height / 100, 2);
-    return _bmi.toStringAsFixed(1); // Quantas casas decimais queremos.
+    return _bmi.toStringAsFixed(1); // will return a string with just 1 decimal number
   }
 
   String getResult() {

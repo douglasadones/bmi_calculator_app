@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ReusableCard extends StatelessWidget {
-  ReusableCard({required this.colour, required this.cardChild, this.onPress});
+  const ReusableCard({super.key, required this.colour, required this.cardChild, this.onPress});
 
   final Color colour;
   final Widget cardChild;
   final VoidCallback?
-      onPress; // "VoidCallback?" permite que a variável seja (uma função) opcional.
+      onPress; // "VoidCallback?" ou "Function()?"permite que a variável seja (uma função) opcional.
 
   @override
   Widget build(BuildContext context) {

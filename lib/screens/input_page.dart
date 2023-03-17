@@ -1,39 +1,42 @@
-import 'package:bmi_calculator_app/screens/results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bmi_calculator_app/constants.dart';
-import '../components/reusable_card.dart';
-import '../components/bottom_button.dart';
+import '/components/icon_content.dart';
+import '/components/reusable_card.dart';
+import '/components/constants.dart';
+import 'results_page.dart';
 import '../components/round_icon_button.dart';
-import 'package:bmi_calculator_app/components/icon_content.dart';
-import 'package:bmi_calculator_app/calculator_brain.dart';
+import '/components/bottom_button.dart';
+import '../calculator_brain.dart';
 
 enum Gender {
-  // forma mais organizada que evita coisas como "se Gender == 1"
-  female,
   male,
+  female,
 }
 
 class InputPage extends StatefulWidget {
-  const InputPage({Key? key}) : super(key: key);
+  const InputPage({super.key});
+
   @override
   State<InputPage> createState() => _InputPageState();
 }
 
 class _InputPageState extends State<InputPage> {
-  Gender? selectedGender; // Variável opicional/anulável
+  Color maleCardColour = kInactiveCardColour;
+  Color femaleCardColour = kInactiveCardColour;
+
+  Gender? selectedGender;
+  int height = 180;
+  int weight = 70;
+  int age = 20;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text('BMI CALCULATOR'),
-        ),
+        title: const Center(child: Text("BMI Calculator")),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment
-            .stretch, // faz com que o expanded esteja sempre na sua maior largura possível
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
@@ -48,9 +51,9 @@ class _InputPageState extends State<InputPage> {
                     colour: selectedGender == Gender.male
                         ? kActiveCardColour
                         : kInactiveCardColour,
-                    cardChild: IconContent(
-                      label: 'MALE',
+                    cardChild: const IconContent(
                       icon: FontAwesomeIcons.mars,
+                      label: "MALE",
                     ),
                   ),
                 ),
@@ -64,9 +67,9 @@ class _InputPageState extends State<InputPage> {
                     colour: selectedGender == Gender.female
                         ? kActiveCardColour
                         : kInactiveCardColour,
-                    cardChild: IconContent(
-                      label: 'FEMALE',
+                    cardChild: const IconContent(
                       icon: FontAwesomeIcons.venus,
+                      label: "FEMALE",
                     ),
                   ),
                 ),
@@ -80,32 +83,28 @@ class _InputPageState extends State<InputPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'HEIGHT',
+                    "HEIGHT",
                     style: kLabelTextStyle,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.baseline,
-                    // Todos os textos irão começar de uma mesma base sem parecer que algum está flutuando
                     textBaseline: TextBaseline.alphabetic,
-                    // Parâmetro necessário para podermos setar uma linha base para os nossos textos.
                     children: [
                       Text(
-                        kHeight
-                            .toString(), // Transforma nossa variável int em string.
+                        height.toString(),
                         style: kNumberTextStyle,
                       ),
                       const Text(
-                        'cm',
+                        "cm",
                         style: kLabelTextStyle,
-                      )
+                      ),
                     ],
                   ),
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
-                      inactiveTrackColor:
-                          const Color(0xFF8D8E98), // Alterando a cor inativa
-                      activeTrackColor: Colors.white, // Altera a cor ativa
+                      activeTrackColor: Colors.white,
+                      inactiveTrackColor: const Color(0xFF8D8E98),
                       thumbColor: const Color(0xFFEB1555),
                       overlayColor: const Color(0x29EB1555),
                       thumbShape:
@@ -114,18 +113,15 @@ class _InputPageState extends State<InputPage> {
                           const RoundSliderOverlayShape(overlayRadius: 30.0),
                     ),
                     child: Slider(
-                      // Widget do slider
-                      value: kHeight.toDouble(), // Valor inicial
-                      min: 120.0, // Valor mínimo
-                      max: 220.0, // Valor máximo
-                      onChanged: (double newValue) {
-                        // Valor que será retornado quando o slider estiver em uso
-                        setState(() {
-                          kHeight = newValue.round();
-                        });
-                      },
-                    ),
-                  ),
+                        value: height.toDouble(),
+                        min: 120.0,
+                        max: 220.0,
+                        onChanged: (double newValue) {
+                          setState(() {
+                            height = newValue.round();
+                          });
+                        }),
+                  )
                 ],
               ),
             ),
@@ -144,29 +140,28 @@ class _InputPageState extends State<InputPage> {
                           style: kLabelTextStyle,
                         ),
                         Text(
-                          kWeight.toString(),
+                          weight.toString(),
                           style: kNumberTextStyle,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             RoundIconButton(
-                                icon: FontAwesomeIcons.minus,
-                                onPressed: () {
-                                  setState(() {
-                                    kWeight -= 1;
-                                  });
-                                }),
-                            const SizedBox(
-                              width: 10.0,
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  weight -= 1;
+                                });
+                              },
                             ),
                             RoundIconButton(
-                                icon: FontAwesomeIcons.plus,
-                                onPressed: () {
-                                  setState(() {
-                                    kWeight += 1;
-                                  });
-                                }),
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  weight += 1;
+                                });
+                              },
+                            ),
                           ],
                         ),
                       ],
@@ -180,58 +175,60 @@ class _InputPageState extends State<InputPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          'AGE',
+                          "AGE",
                           style: kLabelTextStyle,
                         ),
                         Text(
-                          kAge.toString(),
+                          age.toString(),
                           style: kNumberTextStyle,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             RoundIconButton(
-                                icon: FontAwesomeIcons.minus,
-                                onPressed: () {
-                                  setState(() {
-                                    kAge -= 1;
-                                  });
-                                }),
-                            const SizedBox(
-                              width: 10.0,
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  age -= 1;
+                                });
+                              },
                             ),
                             RoundIconButton(
-                                icon: FontAwesomeIcons.plus,
-                                onPressed: () {
-                                  setState(() {
-                                    kAge += 1;
-                                  });
-                                })
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  age += 1;
+                                });
+                              },
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
           BottomButton(
-            buttonTitle: 'CALCULATE',
             onTap: () {
               CalculatorBrain calc =
-                  CalculatorBrain(height: kHeight, weight: kWeight);
+                  CalculatorBrain(height: height, weight: weight);
 
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ResultsPage(
+                  builder: (context) {
+                    return ResultPage(
                       bmiResult: calc.calculateBMI(),
                       resultText: calc.getResult(),
-                      interpretation: calc.getInterpretation()),
+                      interpretation: calc.getInterpretation(),
+                    );
+                  },
                 ),
               );
             },
+            buttonTitle: 'CALCULATE',
           ),
         ],
       ),
